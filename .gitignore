@@ -1,2 +1,3 @@
 # ignore vertual environment
 venv/
+/venv/

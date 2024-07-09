@@ -26,8 +26,6 @@ SECRET_KEY = "django-insecure-k$==wp95r$+l39ad*do6q@pyu37^ve(z9$3x_i$o(acq^@bt2!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-
 
 # Application definition
 
@@ -40,7 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "corsheaders",
     "rest_framework",
-    'rest_framework_simplejwt',
+    "rest_framework.authtoken",
     "drf_yasg",
     "api",
 ]
@@ -56,32 +54,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-# CORS configuration
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://localhost:8000",
-]
-
-# Optional: Allow credentials if needed
-CORS_ALLOW_CREDENTIALS = True
-
-# Optional: Allow specific headers
-CORS_ALLOW_HEADERS = [
-    'authorization',
-    'content-type',
-    'x-requested-with',
-    # Add other headers as needed
-]
-
-# Optional: Allow specific methods
-CORS_ALLOW_METHODS = [
-    'GET',
-    'POST',
-    'PUT',
-    'PATCH',
-    'DELETE',
-    'OPTIONS',
-]
+ALLOWED_HOSTS=['*']
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = "server.urls"
 

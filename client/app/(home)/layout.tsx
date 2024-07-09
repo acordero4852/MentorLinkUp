@@ -1,6 +1,6 @@
 import { NavigationBar, Footer } from '@/components';
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <body className="h-100 d-flex flex-column">
       <header>
@@ -13,5 +13,3 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     </body>
   );
 };
-
-export default Layout;

@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Link from 'next/link';
 
-const Login = () => {
+export default function Login() {
   return (
     <Card className="p-3" style={{width: 400}}>
       <Card.Body>
@@ -33,5 +33,3 @@ const Login = () => {
     </Card>
   )
 }
-
-export default Login

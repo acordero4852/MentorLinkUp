@@ -6,12 +6,10 @@ export const metadata: Metadata = {
   description: 'MentorLinkUp is a platform that connects mentors and mentees.',
 };
 
-const RootLayout = ({ children }: Readonly<{ children: React.ReactNode; }>) => {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
   return (
     <html lang="en" className="h-100">
       {children}
     </html>
   );
 };
-
-export default RootLayout;

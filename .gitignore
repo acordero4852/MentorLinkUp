@@ -1,2 +1,3 @@
-# ignore virtual environment
+# ignore vertual environment
 venv/
+/venv/

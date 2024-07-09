@@ -1,6 +1,6 @@
 import Container from 'react-bootstrap/Container'
 
-const Footer = () => {
+export default function Footer() {
   return (
     <Container>
       <p className="py-3 m-0">
@@ -9,5 +9,3 @@ const Footer = () => {
     </Container>
   )
 }
-
-export default Footer

@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Link from 'next/link';
 
-const Register = () => {
+export default function Register() {
   return (
     <Card className="p-3" style={{width: 400}}>
       <Card.Body>
@@ -25,6 +25,14 @@ const Register = () => {
             <Form.Label>Confirm Password</Form.Label>
             <Form.Control type='password' placeholder='Confirm your password' />
           </Form.Group>
+          <Form.Group className="mb-3" controlId='username'>
+            <Form.Label>I&apos;m a </Form.Label>
+            <Form.Select defaultValue="Choose..." required>
+              <option>Choose...</option>
+              <option value="student">Student</option>
+              <option value="mentor">Mentor</option>
+            </Form.Select>
+          </Form.Group>
           <Form.Group className="mb-3">
             <Form.Check type="checkbox" label="I accept the Terms of Condition" required/>
           </Form.Group>
@@ -36,5 +44,3 @@ const Register = () => {
     </Card>
   )
 }
-
-export default Register

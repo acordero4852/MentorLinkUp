@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 
-const Home = () => {
+export default function Home()  {
   return (
     <main>
       <Container>
@@ -53,5 +53,3 @@ const Home = () => {
     </main>
   );
 }
-
-export default Home;

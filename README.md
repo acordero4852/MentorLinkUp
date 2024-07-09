@@ -16,8 +16,8 @@ MentorLinkUp is a platform connecting students with mentors to facilitate career
 
 ## Tools
 
-- **ClickUp:** Task management and tracking.
-- **GitLab:** Version control and collaboration.
+- **Trello** Task management and tracking.
+- **GitHub:** Version control and collaboration.
 - **Miro:** Planning and brainstorming.
 
 ## Technology Stack

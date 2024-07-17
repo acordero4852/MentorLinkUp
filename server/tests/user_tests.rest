@@ -1,0 +1,53 @@
+@url = http://localhost:8000/api
+
+### Get all users
+GET {{url}}/users/
+Content-Type: application/json
+
+### Get a user
+GET {{url}}/users/106/
+Content-Type: application/json
+
+
+### Register a user
+POST {{url}}/users/register/
+Content-Type: application/json
+
+{
+    "email": "tata@ta.com",
+    "password": "password",
+    "first_name": "test",
+    "last_name": "test",
+    "is_mentor": false
+}
+
+### Login a user
+POST {{url}}/users/login/
+Content-Type: application/json
+
+{
+    "email": "tata@ta.com",
+    "password": "password"
+}
+
+### Get user profile with token in header
+GET {{url}}/users/self/
+Content-Type: application/json
+Authorization : Token fe1703ce80c85ec27a1e257df85a080c357af82c
+
+### update a user with token in header
+PUT  {{url}}/users/self/update/
+Content-Type: application/json
+Authorization: Token fe1703ce80c85ec27a1e257df85a080c357af82c
+
+{
+    "bio": "I am a test user 3"
+}
+
+### Get mentors
+GET {{url}}/mentors/
+Content-Type: application/json
+
+### Search mentors
+GET {{url}}/mentors/?school=new
+Content-Type: application/json

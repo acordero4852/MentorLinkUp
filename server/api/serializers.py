@@ -32,11 +32,11 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password', 'first_name', 'last_name', 'is_mentor']
+        fields = ['email', 'password', 'first_name', 'last_name', 'is_mentor']
 
     def create(self, validated_data):
         user = User.objects.create_user(
-            username=validated_data['username'],
+            username=validated_data['email'],
             email=validated_data['email'],
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name']
@@ -75,10 +75,26 @@ class UserLoginSerializer(serializers.Serializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name']
+        fields = ['id', 'username', 'email', 'first_name', 'last_name']
+        extra_kwargs = {
+            'username': {'required': False}
+        }
 
 class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
+
+    class Meta:
+        model = Profile
+        fields = ['user',
+                'is_mentor', 'is_active', 'date_joined', 'bio'
+        ]
+
+class ProfileDetailsSerializer(serializers.ModelSerializer):
+    user = UserSerializer(required=False)
+    schools = SchoolSerializer(many=True, required=False)
+    degrees = DegreeSerializer(many=True, required=False)
+    classes = ClassSerializer(many=True, required=False)
+    clubs = ClubSerializer(many=True, required=False)
 
     class Meta:
         model = Profile
@@ -87,3 +103,48 @@ class ProfileSerializer(serializers.ModelSerializer):
                 'schools', 'degrees', 'classes', 'clubs', 
                 'bio'
         ]
+
+class ProfileUpdateSerializer(serializers.ModelSerializer):
+    user = UserSerializer(required=False)
+    schools = serializers.PrimaryKeyRelatedField(many=True, queryset=School.objects.all(), required=False)
+    degrees = serializers.PrimaryKeyRelatedField(many=True, queryset=Degree.objects.all(), required=False)
+    classes = serializers.PrimaryKeyRelatedField(many=True, queryset=Class.objects.all(), required=False)
+    clubs = serializers.PrimaryKeyRelatedField(many=True, queryset=Club.objects.all(), required=False)
+
+    class Meta:
+        model = Profile
+        fields = ['user',
+                'is_mentor', 'is_active', 'date_joined', 
+                'schools', 'degrees', 'classes', 'clubs', 
+                'bio'
+        ]
+
+    def update(self, instance, validated_data):
+        user_data = validated_data.pop('user', None)
+        schools_data = validated_data.pop('schools', None)
+        degrees_data = validated_data.pop('degrees', None)
+        classes_data = validated_data.pop('classes', None)
+        clubs_data = validated_data.pop('clubs', None)
+
+        if user_data:
+            user = instance.user
+            for attr, value in user_data.items():
+                setattr(user, attr, value)
+            user.save()
+
+        instance.is_mentor = validated_data.get('is_mentor', instance.is_mentor)
+        instance.is_active = validated_data.get('is_active', instance.is_active)
+        instance.bio = validated_data.get('bio', instance.bio)
+        instance.save()
+
+        #set based on ids
+        if schools_data is not None:
+            instance.schools.set(schools_data)
+        if degrees_data is not None:
+            instance.degrees.set(degrees_data)
+        if classes_data is not None:
+            instance.classes.set(classes_data)
+        if clubs_data is not None:
+            instance.clubs.set(clubs_data)
+
+        return instance

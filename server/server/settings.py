@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "drf_yasg",
     "api",
+    "profiles",
+    "django_filters",
 ]
 
 MIDDLEWARE = [
@@ -53,6 +55,16 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
 
 ALLOWED_HOSTS=['*']
 CORS_ALLOW_ALL_ORIGINS = True

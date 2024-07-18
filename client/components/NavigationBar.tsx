@@ -49,8 +49,8 @@ export const DashboardNavigationBar = () => {
           id="responsive-navbar-nav"
         >
           <Nav className="me-auto">
-            <Nav.Link href="/dashboard/mentor">Mentors</Nav.Link>
-            <Nav.Link href="/dashboard/student">Student</Nav.Link>
+            <Nav.Link href="/mentors">Mentors</Nav.Link>
+            <Nav.Link href="/mentees">Mentees</Nav.Link>
           </Nav>
           <Nav>
             <InputGroup>
@@ -59,7 +59,7 @@ export const DashboardNavigationBar = () => {
               </InputGroup.Text>
               <Form.Control type="text" placeholder="Search" />
             </InputGroup>
-            <Nav.Link>
+            <Nav.Link href="/message">
               <Icon.ChatCircle />
             </Nav.Link>
             <Nav.Link>

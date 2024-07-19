@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+# User models and application data models
+
 class School(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -12,9 +14,6 @@ class School(models.Model):
 class Degree(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    start_date = models.DateTimeField()
-    is_completed = models.BooleanField()
-    estimated_end_date = models.DateTimeField()
     date_created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -52,3 +51,42 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+
+# Linkup models
+
+class LinkupRequest(models.Model):
+    sender = models.ForeignKey(Profile, related_name='sender', on_delete=models.CASCADE)
+    receiver = models.ForeignKey(Profile, related_name='receiver', on_delete=models.CASCADE)
+    date_sent = models.DateTimeField(auto_now_add=True)
+    date_responded = models.DateTimeField(blank=True, null=True)
+    is_accepted = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = "linkup_requests"
+
+class Mentors(models.Model):
+    mentor = models.ForeignKey(Profile, related_name='mentor', on_delete=models.CASCADE)
+    mentee = models.ForeignKey(Profile, related_name='mentee', on_delete=models.CASCADE)
+    date_linked = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = "mentors"
+
+# Messaging models
+
+class Chat(models.Model):
+    profiles = models.ManyToManyField(Profile)
+
+    class Meta:
+        db_table = "chats"
+
+class Message(models.Model):
+    chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
+    sender = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    message = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = "messages"
+        ordering = ['timestamp']

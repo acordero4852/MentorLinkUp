@@ -1,7 +1,11 @@
+from django.utils import timezone
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from .models import *
+import logging
+
+logger = logging.getLogger(__name__)
 
 class SchoolSerializer(serializers.ModelSerializer):
     class Meta:
@@ -80,6 +84,23 @@ class UserSerializer(serializers.ModelSerializer):
             'username': {'required': False}
         }
 
+class CompactUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'first_name', 'last_name']
+        extra_kwargs = {
+            'username': {'required': False}
+        }
+
+class CompactProfileSerializer(serializers.ModelSerializer):
+    user = CompactUserSerializer()
+
+    class Meta:
+        model = Profile
+        fields = ['user',
+                'is_mentor', 'is_active'
+        ]
+
 class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
 
@@ -148,3 +169,56 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
             instance.clubs.set(clubs_data)
 
         return instance
+    
+class LinkupRequestSerializer(serializers.ModelSerializer):
+    sender = CompactProfileSerializer(read_only=True)
+    is_accepted = serializers.BooleanField(required=False)
+
+    class Meta:
+        model = LinkupRequest
+        fields = ['id', 'sender', 'date_sent',
+                  'date_responded', 'is_accepted']
+    
+    def update(self, instance, validated_data):
+        instance.is_accepted = validated_data.get('is_accepted', instance.is_accepted)
+        # set to current time
+        if 'is_accepted' in validated_data:
+            instance.date_responded = timezone.now()
+        if instance.is_accepted == True:
+            if not Link.objects.filter(profile1=instance.sender, profile2=instance.receiver).exists() and not Link.objects.filter(profile1=instance.receiver, profile2=instance.sender).exists():
+                try:
+                    # create a new link
+                    link = Link.objects.create(
+                        profile1=instance.sender,
+                        profile2=instance.receiver
+                    )
+                    link.save()
+                    logger.debug('Link created between {} and {}'.format(instance.sender.user.username, instance.receiver.user.username))
+                except Exception as e:
+                    logger.error('Error creating link between {} and {}. Error: {}'.format(instance.sender.user.username, instance.receiver.user.username, e))
+        instance.save()
+        return instance
+    
+
+class LinkSerializer(serializers.ModelSerializer):
+    profile1 = CompactProfileSerializer(read_only=True)
+    profile2 = CompactProfileSerializer(read_only=True)
+
+    class Meta:
+        model = Link
+        fields = ['id', 'profile1', 'profile2', 'date_linked']
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        user_profile = self.context['request'].user.profile
+        
+        if representation['profile1']['user']['id'] == user_profile.user.id:
+            del representation['profile1']
+            representation['link'] = representation['profile2']
+            del representation['profile2']
+        if representation['profile2']['user']['id'] == user_profile.user.id:
+            del representation['profile2']
+            representation['link'] = representation['profile1']
+            del representation['profile1']
+
+        return representation

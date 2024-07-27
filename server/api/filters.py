@@ -6,7 +6,8 @@ class ProfileFilter(django_filters.FilterSet):
     degree = django_filters.CharFilter(field_name='degree__name', lookup_expr='icontains')
     class_name = django_filters.CharFilter(field_name='class__name', lookup_expr='icontains')
     club = django_filters.CharFilter(field_name='club__name', lookup_expr='icontains')
+    is_mentor = django_filters.BooleanFilter(field_name='is_mentor')
 
     class Meta:
         model = Profile
-        fields = ['school', 'degree', 'class_name', 'club']
+        fields = ['school', 'degree', 'class_name', 'club', 'is_mentor']

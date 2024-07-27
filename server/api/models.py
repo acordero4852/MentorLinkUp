@@ -65,13 +65,13 @@ class LinkupRequest(models.Model):
     class Meta:
         db_table = "linkup_requests"
 
-class Mentors(models.Model):
-    mentor = models.ForeignKey(Profile, related_name='mentor', on_delete=models.CASCADE)
-    mentee = models.ForeignKey(Profile, related_name='mentee', on_delete=models.CASCADE)
+class Link(models.Model):
+    profile1 = models.ForeignKey(Profile, related_name='profile1', on_delete=models.CASCADE)
+    profile2 = models.ForeignKey(Profile, related_name='profile2', on_delete=models.CASCADE)
     date_linked = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        db_table = "mentors"
+        db_table = "links"
 
 # Messaging models
 

@@ -1,0 +1,57 @@
+@url = http://localhost:8000/api
+
+### get token
+
+### Register a user
+POST {{url}}/users/register/
+Content-Type: application/json
+
+{
+    "email": "taa@taa.com",
+    "password": "password",
+    "first_name": "test",
+    "last_name": "test",
+    "is_mentor": false
+}
+
+### Login a user
+POST {{url}}/users/login/
+Content-Type: application/json
+
+{
+    "email": "taa@taa.com",
+    "password": "password"
+}
+###
+@token1 = a9487c39261543960dbf602fc81e64873bfddfff
+@token2 = 0eff2677065f75cfdd39a82b3d8eb290533aba49
+@token3 = 6fd502ae524f7fb9238501108e03c220e8aa2dcd
+
+### Create a linkup request
+POST {{url}}/users/linkup/
+Content-Type: application/json
+Authorization: Token 6fd502ae524f7fb9238501108e03c220e8aa2dcd
+
+{
+    "receiver_id": 102
+}
+
+### Get all linkup requests
+GET {{url}}/users/linkup/requests/
+Content-Type: application/json
+Authorization: Token a9487c39261543960dbf602fc81e64873bfddfff
+
+
+### Respon to a user_linkup request
+PUT {{url}}/users/linkup/requests/9/
+Content-Type: application/json
+Authorization: Token a9487c39261543960dbf602fc81e64873bfddfff
+    
+{
+    "is_accepted": true
+}
+
+### Get all Links
+GET {{url}}/users/links/
+Content-Type: application/json
+Authorization: Token a9487c39261543960dbf602fc81e64873bfddfff

@@ -1,11 +1,11 @@
 @url = http://localhost:8000/api
 
-### Get all users
-GET {{url}}/users/
+### Get all users. Or search and filter users
+GET {{url}}/users/?search=john&is_mentor=true
 Content-Type: application/json
 
 ### Get a user
-GET {{url}}/users/106/
+GET {{url}}/users/10/
 Content-Type: application/json
 
 
@@ -14,7 +14,7 @@ POST {{url}}/users/register/
 Content-Type: application/json
 
 {
-    "email": "tata@ta.com",
+    "email": "t@t.com",
     "password": "password",
     "first_name": "test",
     "last_name": "test",
@@ -26,11 +26,11 @@ POST {{url}}/users/login/
 Content-Type: application/json
 
 {
-    "email": "tata@ta.com",
+    "email": "t@t.com",
     "password": "password"
 }
 
-### Get user profile with token in header
+### Get self user
 GET {{url}}/users/self/
 Content-Type: application/json
 Authorization : Token fe1703ce80c85ec27a1e257df85a080c357af82c
@@ -41,13 +41,14 @@ Content-Type: application/json
 Authorization: Token fe1703ce80c85ec27a1e257df85a080c357af82c
 
 {
-    "bio": "I am a test user 3"
+    "schools": [1],
+    "degrees": [1],
+    "classes": [1],
+    "clubs": [1, 3],
+    "bio": "I am a test user 4"
 }
 
-### Get mentors
-GET {{url}}/mentors/
+### Get mentor matches ranked
+GET {{url}}/users/mentor_match/
 Content-Type: application/json
-
-### Search mentors
-GET {{url}}/mentors/?school=new
-Content-Type: application/json
+Authorization: Token fe1703ce80c85ec27a1e257df85a080c357af82c

@@ -14,7 +14,7 @@ POST {{url}}/users/register/
 Content-Type: application/json
 
 {
-    "email": "t@t.com",
+    "email": "ta@ta.com",
     "password": "password",
     "first_name": "test",
     "last_name": "test",
@@ -33,12 +33,12 @@ Content-Type: application/json
 ### Get self user
 GET {{url}}/users/self/
 Content-Type: application/json
-Authorization : Token fe1703ce80c85ec27a1e257df85a080c357af82c
+Authorization : Token 6bce9149160986a25be9911fa3b5bf4519b48961
 
 ### update a user with token in header
 PUT  {{url}}/users/self/update/
 Content-Type: application/json
-Authorization: Token fe1703ce80c85ec27a1e257df85a080c357af82c
+Authorization: Token 6bce9149160986a25be9911fa3b5bf4519b48961
 
 {
     "schools": [1],
@@ -51,4 +51,33 @@ Authorization: Token fe1703ce80c85ec27a1e257df85a080c357af82c
 ### Get mentor matches ranked
 GET {{url}}/users/mentor_match/
 Content-Type: application/json
-Authorization: Token fe1703ce80c85ec27a1e257df85a080c357af82c
+Authorization: Token 6bce9149160986a25be9911fa3b5bf4519b48961
+
+### send a message to a user
+POST {{url}}/users/messages/
+Content-Type: application/json
+Authorization: Token 6bce9149160986a25be9911fa3b5bf4519b48961
+
+{
+    "receiver_id": 10,
+    "content": "Hello, I am interested in your profile"
+}
+### send a message to a current chat
+POST {{url}}/users/messages/
+Content-Type: application/json
+Authorization: Token 7ebd03c93ae607e07e36054683e1e46e549641da
+
+{
+    "chat_id": 10,
+    "content": "Hello, I am interested in your profile"
+}
+
+### Get all chats
+GET {{url}}/users/chats/
+Content-Type: application/json
+Authorization: Token 6bce9149160986a25be9911fa3b5bf4519b48961
+
+### Get messages from a chat
+GET {{url}}/users/chats/10/
+Content-Type: application/json
+Authorization: Token 6bce9149160986a25be9911fa3b5bf4519b48961

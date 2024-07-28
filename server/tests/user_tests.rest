@@ -14,7 +14,7 @@ POST {{url}}/users/register/
 Content-Type: application/json
 
 {
-    "email": "ta@ta.com",
+    "email": "t@t.com",
     "password": "password",
     "first_name": "test",
     "last_name": "test",
@@ -26,19 +26,25 @@ POST {{url}}/users/login/
 Content-Type: application/json
 
 {
-    "email": "t@t.com",
+    "email": "wconner@example.com",
     "password": "password"
 }
+###
+@token1 = f1d964c36f5f708aa9e2e3c07fce5bb85a79ed0f
+
+@token2 = 6ce16e1f57dcab1bd64d9f9a2bf1adff9d1c8528
+
+@token3 = aed806ba48541edfe5c559bf7df0becd81564997
 
 ### Get self user
 GET {{url}}/users/self/
 Content-Type: application/json
-Authorization : Token 6bce9149160986a25be9911fa3b5bf4519b48961
+Authorization : Token 6ce16e1f57dcab1bd64d9f9a2bf1adff9d1c8528
 
 ### update a user with token in header
 PUT  {{url}}/users/self/update/
 Content-Type: application/json
-Authorization: Token 6bce9149160986a25be9911fa3b5bf4519b48961
+Authorization: Token 6ce16e1f57dcab1bd64d9f9a2bf1adff9d1c8528
 
 {
     "schools": [1],
@@ -51,33 +57,33 @@ Authorization: Token 6bce9149160986a25be9911fa3b5bf4519b48961
 ### Get mentor matches ranked
 GET {{url}}/users/mentor_match/
 Content-Type: application/json
-Authorization: Token 6bce9149160986a25be9911fa3b5bf4519b48961
+Authorization: Token 6ce16e1f57dcab1bd64d9f9a2bf1adff9d1c8528
 
 ### send a message to a user
 POST {{url}}/users/messages/
 Content-Type: application/json
-Authorization: Token 6bce9149160986a25be9911fa3b5bf4519b48961
+Authorization: Token 6ce16e1f57dcab1bd64d9f9a2bf1adff9d1c8528
 
 {
-    "receiver_id": 10,
+    "receiver_id": 53,
     "content": "Hello, I am interested in your profile"
 }
 ### send a message to a current chat
 POST {{url}}/users/messages/
 Content-Type: application/json
-Authorization: Token 7ebd03c93ae607e07e36054683e1e46e549641da
+Authorization: Token aed806ba48541edfe5c559bf7df0becd81564997
 
 {
-    "chat_id": 10,
+    "chat_id": 1,
     "content": "Hello, I am interested in your profile"
 }
 
 ### Get all chats
 GET {{url}}/users/chats/
 Content-Type: application/json
-Authorization: Token 6bce9149160986a25be9911fa3b5bf4519b48961
+Authorization: Token 6ce16e1f57dcab1bd64d9f9a2bf1adff9d1c8528
 
 ### Get messages from a chat
-GET {{url}}/users/chats/10/
+GET {{url}}/users/chats/1/
 Content-Type: application/json
-Authorization: Token 6bce9149160986a25be9911fa3b5bf4519b48961
+Authorization: Token 6ce16e1f57dcab1bd64d9f9a2bf1adff9d1c8528

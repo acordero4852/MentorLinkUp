@@ -191,53 +191,6 @@ class LinkListView(generics.ListAPIView):
 
 # Messaging views
 
-# # Chat Serializers
-# class MessageSerializer(serializers.ModelSerializer):
-#     sender = CompactProfileSerializer(read_only=True)
-
-#     class Meta:
-#         model = Message
-#         fields = ['id', 'sender', 'content', 'date_sent']
-
-#     def to_representation(self, instance):
-#         representation = super().to_representation(instance)
-#         user_profile = self.context['request'].user.profile
-
-#         if user_profile == instance.sender:
-#             representation['sender'] = 'You'
-
-#         return representation
-    
-#     def create(self, validated_data):
-#         sender = self.context['request'].user.profile
-#         content = validated_data.get('content')
-#         # check if either a chat id or receiver id is provided
-#         chat_id = self.context['view'].kwargs.get('chat_id')
-#         receiver_id = self.context['view'].kwargs.get('receiver_id')
-#         if chat_id:
-#             chat = Chat.objects.get(id=chat_id)
-#         elif receiver_id:
-#             try:
-#                 receiver = Profile.objects.get(user_id=receiver_id)
-#                 chat = Chat.objects.create()
-#                 chat.profiles.add(sender, receiver)
-#                 chat.save()
-#             except:
-#                 raise serializers.ValidationError('Receiver ID is invalid')
-#         else:
-#             raise serializers.ValidationError('Chat ID or Receiver ID must be provided')
-        
-#         try:
-#             message = Message.objects.create(
-#                 chat=chat,
-#                 sender=sender,
-#                 content=content
-#             )
-#             message.save()
-#         except:
-#             raise serializers.ValidationError('Error creating message')
-#         return message
-
 # send message and create a chat if it doesn't exist
 class SendMessageView(generics.CreateAPIView):
     serializer_class = MessageSerializer
@@ -277,7 +230,10 @@ class MessageListView(generics.ListAPIView):
         profile = Profile.objects.get(user=self.request.user)
         self.check_object_permissions(self.request, profile)
         chat_id = self.kwargs.get('chat_id')
-        return Chat.objects.get(id=chat_id)
+        try:
+            return Chat.objects.get(id=chat_id)
+        except:
+            self.permission_denied(self.request, message='Chat not found')
 
     def get_queryset(self):
         chat = self.get_object()

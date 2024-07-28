@@ -25,7 +25,9 @@ urlpatterns = [
     path('users/mentor_match/', MentorListView.as_view(), name='mentor-list'),
 
     # Messaging views
-    #TODO: implement messaging views
+    path('users/messages/', SendMessageView.as_view(), name='message-list'),
+    path('users/chats/', ChatListView.as_view(), name='chat-list'),
+    path('users/chats/<int:chat_id>/', MessageListView.as_view(), name='chat-detail'),
 
     # school, degree, class, club
     path('schools/', SchoolListView.as_view(), name='school-list'),

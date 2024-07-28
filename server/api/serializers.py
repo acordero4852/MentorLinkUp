@@ -222,3 +222,71 @@ class LinkSerializer(serializers.ModelSerializer):
             del representation['profile1']
 
         return representation
+
+
+# Chat Serializers
+class MessageSerializer(serializers.ModelSerializer):
+    sender = CompactProfileSerializer(read_only=True)
+
+    class Meta:
+        model = Message
+        fields = ['id', 'sender', 'content', 'timestamp']
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        user_profile = self.context['request'].user.profile
+
+        if user_profile == instance.sender:
+            representation['sender'] = 'You'
+
+        return representation
+    
+    def create(self, validated_data):
+        sender = self.context['request'].user.profile
+        content = validated_data.get('content')
+        # check if either a chat id or receiver id is provided
+        chat_id = self.context['request'].data.get('chat_id')
+        receiver_id = self.context['request'].data.get('receiver_id')
+        if chat_id:
+            try:
+                chat = Chat.objects.get(id=chat_id)
+            except:
+                raise serializers.ValidationError('Chat ID is invalid')
+        elif receiver_id:
+            try:
+                receiver = Profile.objects.get(user_id=receiver_id)
+                chat = Chat.objects.create()
+                chat.profiles.add(sender, receiver)
+                chat.save()
+            except:
+                raise serializers.ValidationError('Receiver ID is invalid')
+        else:
+            raise serializers.ValidationError('Chat ID or Receiver ID must be provided')
+        
+        try:
+            message = Message.objects.create(
+                chat=chat,
+                sender=sender,
+                content=content,
+                timestamp=timezone.now()
+            )
+        except:
+            raise serializers.ValidationError('Error creating message')
+        return message
+
+class ChatSerializer(serializers.ModelSerializer):
+    profiles = CompactProfileSerializer(many=True, read_only=True)
+    messages = MessageSerializer(many=True, read_only=True, source='message_set')
+
+    class Meta:
+        model = Chat
+        fields = ['id', 'profiles', 'messages' ]
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        user_profile = self.context['request'].user.profile
+
+        representation['profiles'] = [profile for profile in representation['profiles'] if profile['user']['id'] != user_profile.user.id]
+        representation['messages'] = representation['messages'][-1:]
+
+        return representation

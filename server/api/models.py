@@ -84,7 +84,7 @@ class Chat(models.Model):
 class Message(models.Model):
     chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
     sender = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    message = models.TextField()
+    content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
     class Meta:

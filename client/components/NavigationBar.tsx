@@ -6,8 +6,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/esm/InputGroup';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import * as Icon from './Icon';
+import { useRouter } from 'next/navigation';
 import Image from 'react-bootstrap/Image';
+import * as Icon from './Icon';
 
 export const NavigationBar = () => {
   return (
@@ -40,6 +41,13 @@ export const NavigationBar = () => {
 };
 
 export const DashboardNavigationBar = () => {
+  const router = useRouter();
+  
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    router.push('/');
+  }
+
   return (
     <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
       <Container>
@@ -81,7 +89,7 @@ export const DashboardNavigationBar = () => {
               <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
               <NavDropdown.Item href="/settings">Settings</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="/logout">Logout</NavDropdown.Item>
+              <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>

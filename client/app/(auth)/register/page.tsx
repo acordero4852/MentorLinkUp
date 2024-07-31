@@ -26,21 +26,13 @@ export default function Register() {
     const password = formData.get('password') as string;
     const is_mentor = formData.get('is_mentor') as boolean | null;
 
-    const response: Response = await registerUser({
-      first_name,
-      last_name,
-      email,
-      password,
-      is_mentor,
-    });
-
-    if (response.ok) {
-      response.json().then((data) => {
-        localStorage.setItem('token', data.token);
-        setError(null);
-        router.push('/dashboard');
-      }).catch((error) => console.error(error));
-    }
+    await registerUser({ first_name, last_name, email, password, is_mentor })
+      .then((res) => res.json())
+      .then((data) => {
+          localStorage.setItem('token', data.token);
+          router.push('/dashboard');
+      })
+      .catch((err) => console.error(err));
 
     setLoading(false);
   }

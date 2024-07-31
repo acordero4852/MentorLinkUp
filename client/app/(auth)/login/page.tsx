@@ -23,19 +23,17 @@ export default function Login() {
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
 
-    const response: Response = await loginUser({ email, password });
-
-    if (response.ok) {
-      response.json().then((data) => {
-        try {
+    await loginUser({ email, password })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.token) {
           localStorage.setItem('token', data.token);
-          setError(null)
           router.push('/dashboard');
-        } catch {
+        } else {
           setError(data.non_field_errors[0]);
         }
-      }).catch((error) => console.error(error));
-    }
+      })
+      .catch((err) => console.error(err));
 
     setLoading(false);
   };
@@ -48,8 +46,8 @@ export default function Login() {
           <p className="text-center">
             Don&apos;t have an account, sign up{' '}
             <Link href="/register">here</Link>
-            {error && <Alert variant="danger">{error}</Alert>}
           </p>
+          {error && <Alert variant="danger">{error}</Alert>}
         </div>
         <Form className="mb-5" onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="email">

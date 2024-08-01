@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
-import { DashboardNavigationBar } from '@/components';
+import { DashboardNavigationBar, Footer } from '@/components';
 
 export default function Layout({ children }: { children: ReactNode }) {
   const router = useRouter();
@@ -19,6 +19,9 @@ export default function Layout({ children }: { children: ReactNode }) {
         <DashboardNavigationBar />
       </header>
       {children}
+      <footer className="bg-body-tertiary mt-auto">
+        <Footer />
+      </footer>
     </body>
   );
 }

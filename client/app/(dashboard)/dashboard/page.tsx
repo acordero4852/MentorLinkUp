@@ -1,55 +1,66 @@
-"use client";
+'use client';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
-import ListGroup from 'react-bootstrap/ListGroup';
+import { UserCard } from '@/components';
+import { useState, useEffect, ReactNode } from 'react';
+import { getUsers } from '@/services/users';
 
 export default function Dasboard() {
-  const mentees = [
-    { name: 'Alice Brown', topic: 'Python Programming' },
-    { name: 'Bob Johnson', topic: 'Data Analysis' },
-    { name: 'Charlie Wilson', topic: 'Web Development' },
-    { name: 'David Smith', topic: 'Mobile Development' },
-    { name: 'Eve Lee', topic: 'UX/UI Design' },
-    { name: 'Frank Anderson', topic: 'Cloud Computing' },
-    { name: 'Grace Moore', topic: 'DevOps' },
-  ];
+  const [mentees, setMentees] = useState([]);
+  const [mentors, setMentors] = useState([]);
 
-  const actions = [
-    'Schedule a new session',
-    'View past sessions',
-    'Manage your profile',
-    'View your mentees',
-    'View your mentors',
-  ];
-
+  useEffect(() => {
+    getUsers().then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          const mentees = data.filter((user: any) => !user.is_mentor);
+          const mentors = data.filter((user: any) => user.is_mentor);
+          setMentees(mentees.slice(0, 5));
+          setMentors(mentors.slice(1, 6));
+        });
+      }
+    });
+  }, []);
+  
   return (
     <main>
       <Container className="my-5">
         <h1>Welcome John!</h1>
       </Container>
       <Container className="my-5">
-        <h2>Suggestions for You</h2>
-        {mentees.length > 0 ? (
-          <ListGroup>
-            {mentees.map((mentee, index) => (
-              <ListGroup.Item key={index}>
-                <div className="d-flex justify-content-between">
-                  <div>
-                    <div>{mentee.name}</div>
-                    <div className="text-muted">{mentee.topic}</div>
-                  </div>
-                  <Button variant="primary">Connect</Button>
-                </div>
-              </ListGroup.Item>
-            ))}
-          </ListGroup>
-        ) : (
-          <p>You have no mentees.</p>
-        )}
+        <h2 className='mb-5'>Suggestions for You</h2>
+        <div className="mb-3">
+          <h3 className='mb-2'>Mentors</h3>
+          <Row>
+            {mentors.map((mentor: any) => {
+              return (
+                <UserCard
+                  key={mentor.user.id}
+                  name={`${mentor.user.first_name} ${mentor.user.last_name}`}
+                  username={mentor.user.username}
+                  is_mentor={mentor.is_mentor}
+                />
+              )
+            })}
+          </Row>
+        </div>
+        <div className="mb-3">
+          <h3 className='mb-2'>Mentees</h3>
+          <Row>
+            {mentees.map((mentee: any) => {
+              return (
+                <UserCard
+                  key={mentee.user.id}
+                  name={`${mentee.user.first_name} ${mentee.user.last_name}`}
+                  username={mentee.user.username}
+                  is_mentor={mentee.is_mentor}
+                />
+              )
+            })}
+          </Row>
+        </div>
       </Container>
-      <Container className="my-5">
+      {/*<Container className="my-5">
         <h2>Quick Actions</h2>
         <Row>
           {actions.map((action, index) => (
@@ -60,7 +71,7 @@ export default function Dasboard() {
             </Col>
           ))}
         </Row>
-      </Container>
+      </Container>*/}
     </main>
   );
 }

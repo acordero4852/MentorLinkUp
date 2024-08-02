@@ -19,9 +19,10 @@ MentorLinkUp is a platform connecting students with mentors to facilitate career
 - **Trello** Task management and tracking.
 - **GitHub:** Version control and collaboration.
 - **Miro:** Planning and brainstorming.
+- **Figma:** Wireframing and UX/UI designing.
 
 ## Technology Stack
 
-- **Frontend:** Next.js
+- **Frontend:** Next.js and Bootstrap
 - **Backend:** Django
-- **Database:** MongoDB
+- **Database:** PostgreSQL

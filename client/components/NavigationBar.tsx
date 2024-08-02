@@ -6,8 +6,10 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/esm/InputGroup';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import Avatar from 'boring-avatars';
 import { useRouter } from 'next/navigation';
-import Image from 'react-bootstrap/Image';
+import { useContext, useState } from 'react';
+import { ProfileContext } from '@/context/ProfileProvider';
 import * as Icon from './Icon';
 
 export const NavigationBar = () => {
@@ -41,21 +43,36 @@ export const NavigationBar = () => {
 };
 
 export const DashboardNavigationBar = () => {
+  const [query, setQuery] = useState('');
+
   const router = useRouter();
-  
+
+  const { profile } = useContext(ProfileContext);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSearch();
+    }
+  };
+
+  const handleSearch = () => {
+    if (query !== '') {
+      router.push(`/search?name=${query}`);
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     router.push('/');
-  }
+  };
 
   return (
     <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
       <Container>
         <Navbar.Brand href="/dashboard">MentorLinkUp</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse
-          id="responsive-navbar-nav"
-        >
+        <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="/mentors">Mentors</Nav.Link>
             <Nav.Link href="/mentees">Mentees</Nav.Link>
@@ -65,7 +82,13 @@ export const DashboardNavigationBar = () => {
               <InputGroup.Text>
                 <Icon.MagnifyingGlass />
               </InputGroup.Text>
-              <Form.Control type="text" placeholder="Search" />
+              <Form.Control
+                type="text"
+                placeholder="Search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={handleKeyDown}
+              />
             </InputGroup>
             <Nav.Link href="/message">
               <Icon.ChatCircle />
@@ -75,19 +98,16 @@ export const DashboardNavigationBar = () => {
             </Nav.Link>
             <NavDropdown
               title={
-                <Image
-                  src="/user.jpg"
-                  roundedCircle
-                  alt="Profile Picture"
-                  width={32}
-                  height={32}
+                <Avatar
+                  size={32}
+                  name={profile?.user?.username}
+                  variant="beam"
                 />
               }
               id="collasible-nav-dropdown"
               align={{ lg: 'end' }}
             >
               <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
-              <NavDropdown.Item href="/settings">Settings</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
             </NavDropdown>

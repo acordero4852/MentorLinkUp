@@ -24,13 +24,15 @@ export default function Register() {
     const last_name = formData.get('last_name') as string;
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
-    const is_mentor = formData.get('is_mentor') as boolean | null;
+    const is_mentor = formData.get('is_mentor') === 'mentor';
 
     await registerUser({ first_name, last_name, email, password, is_mentor })
       .then((res) => res.json())
       .then((data) => {
+        if (data.token) {
           localStorage.setItem('token', data.token);
           router.push('/dashboard');
+        }
       })
       .catch((err) => console.error(err));
 

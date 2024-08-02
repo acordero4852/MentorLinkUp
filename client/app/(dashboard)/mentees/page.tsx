@@ -5,15 +5,15 @@ import { useState, useEffect } from 'react';
 import { UserCard } from '@/components';
 import { getUsers } from '@/services/users';
 
-const Mentors = () => {
-  const [mentors, setMentors] = useState([]);
+const Mentees = () => {
+  const [mentees, setMentees] = useState([]);
 
   useEffect(() => {
     getUsers().then((response) => {
       if (response.ok) {
         response.json().then((data) => {
-          const mentors = data.filter((user: any) => user.is_mentor);
-          setMentors(mentors);
+          const mentees = data.filter((user: any) => !user.is_mentor);
+          setMentees(mentees);
         });
       }
     });
@@ -22,11 +22,11 @@ const Mentors = () => {
   return (
     <main>
       <Container className="my-5">
-        <h1>Mentors</h1>
+        <h1>Mentees</h1>
       </Container>
       <Container>
         <Row>
-          {mentors.map((mentor: any) => {
+          {mentees.map((mentor: any) => {
             return (
               <UserCard
                 id={mentor.user.id}
@@ -41,6 +41,6 @@ const Mentors = () => {
       </Container>
     </main>
   );
-};
+}
 
-export default Mentors;
+export default Mentees

@@ -35,6 +35,7 @@ export default function Dasboard() {
             {mentors.map((mentor: any) => {
               return (
                 <UserCard
+                  id={mentor.user.id}
                   key={mentor.user.id}
                   name={`${mentor.user.first_name} ${mentor.user.last_name}`}
                   username={mentor.user.username}
@@ -50,6 +51,7 @@ export default function Dasboard() {
             {mentees.map((mentee: any) => {
               return (
                 <UserCard
+                  id={mentee.user.id}
                   key={mentee.user.id}
                   name={`${mentee.user.first_name} ${mentee.user.last_name}`}
                   username={mentee.user.username}

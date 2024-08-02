@@ -43,7 +43,7 @@ export const registerUser = async (data: IRegister) => {
   });
 }
 
-export const getUserInfo = async (token: string) => {
+export const getUserProfile = async (token: string) => {
   return await fetch(`${API_URL}/users/self/`, {
     method: 'GET',
     headers: {
@@ -53,7 +53,7 @@ export const getUserInfo = async (token: string) => {
   });
 }
 
-export const updateUserInfo = async (token: string, data: IUpdate) => {
+export const updateUserProfile = async (token: string, data: IUpdate) => {
   return await fetch(`${API_URL}/users/self/update/`, {
     method: 'PUT',
     headers: {

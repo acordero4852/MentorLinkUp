@@ -8,6 +8,7 @@ import { getUsers } from '@/services/users';
 export default function Dasboard() {
   const [mentees, setMentees] = useState([]);
   const [mentors, setMentors] = useState([]);
+  const [profileName, setProfileName] = useState<string | null>(null);
 
   useEffect(() => {
     getUsers().then((response) => {
@@ -25,7 +26,7 @@ export default function Dasboard() {
   return (
     <main>
       <Container className="my-5">
-        <h1>Welcome John!</h1>
+        <h1>Welcome</h1>
       </Container>
       <Container className="my-5">
         <h2 className='mb-5'>Suggestions for You</h2>

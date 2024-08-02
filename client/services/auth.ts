@@ -54,11 +54,13 @@ export const getUserProfile = async (token: string) => {
 }
 
 export const updateUserProfile = async (token: string, data: IUpdate) => {
+  const { schools, degrees, classes, clubs, bio } = data;
   return await fetch(`${API_URL}/users/self/update/`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Token ${token}`,
     },
+    body: JSON.stringify({ schools, degrees, classes, clubs, bio }),
   })
 }

@@ -21,11 +21,11 @@ interface IUserProfile {
   user: User;
   is_mentor: boolean;
   is_active: boolean;
-  date_joined: string; // or Date if you plan to convert it to a Date object
-  schools: any[]; // Replace `any` with the appropriate type if you know the structure
-  degrees: any[]; // Replace `any` with the appropriate type if you know the structure
-  classes: any[]; // Replace `any` with the appropriate type if you know the structure
-  clubs: any[]; // Replace `any` with the appropriate type if you know the structure
+  date_joined: string;
+  schools: any[];
+  degrees: any[];
+  classes: any[];
+  clubs: any[];
   bio: string;
 }
 
@@ -58,7 +58,7 @@ const User = () => {
       <Container>
         <Row className="my-4">
           <Col md={4} className="text-center">
-            <Avatar size="200" name="Maria Garcia" variant="beam" />
+            <Avatar size="200" name={profile?.user?.username} variant="beam" />
           </Col>
           <Col md={8}>
             <h2>{`${profile?.user.first_name} ${profile?.user.last_name}`}</h2>

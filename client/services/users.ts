@@ -17,3 +17,13 @@ export const getUserById = async (id: number) => {
     },
   });
 };
+
+export const getMatchedMentors = async (token: string) => {
+  return await fetch(`${API_URL}/users/mentor_match`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Token ${token}`,
+    },
+  });
+} 

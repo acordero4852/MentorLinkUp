@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -9,30 +9,11 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 import Avatar from 'boring-avatars';
-import { getUserProfile, updateUserProfile } from '@/services/auth';
-
-interface User {
-  id: number;
-  username: string;
-  email: string;
-  first_name: string;
-  last_name: string;
-}
-
-interface IUserProfile {
-  user: User;
-  is_mentor: boolean;
-  is_active: boolean;
-  date_joined: string;
-  schools: any[];
-  degrees: any[];
-  classes: any[];
-  clubs: any[];
-  bio: string;
-}
+import { ProfileContext } from '@/context/ProfileProvider';
+import { updateUserProfile } from '@/services/auth';
 
 const Profile = () => {
-  const [profile, setProfile] = useState<IUserProfile | null>(null);
+  const { profile } = useContext(ProfileContext);
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -40,16 +21,6 @@ const Profile = () => {
   const handleShow = () => setShow(true);
 
   const token = localStorage.getItem('token');
-
-  useEffect(() => {
-    getUserProfile(String(token)).then((response) => {
-      if (response.ok) {
-        response.json().then((data) => {
-          setProfile(data);
-        });
-      }
-    });
-  }, [token]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -111,20 +82,20 @@ const Profile = () => {
               </p>
               <p>
                 <strong>School:</strong>{' '}
-                {profile?.schools.map((school) => school.name).join(', ')}
+                {profile?.schools.map((school: any) => school.name).join(', ')}
               </p>
               <ListGroup>
                 <ListGroup.Item>
                   <strong>Degrees:</strong>{' '}
-                  {profile?.degrees.map((degree) => degree.name).join(', ')}
+                  {profile?.degrees.map((degree: any) => degree.name).join(', ')}
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <strong>Classes:</strong>{' '}
-                  {profile?.classes.map((c) => c.name).join(', ')}
+                  {profile?.classes.map((c: any) => c.name).join(', ')}
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <strong>Clubs:</strong>{' '}
-                  {profile?.clubs.map((club) => club.name).join(', ')}
+                  {profile?.clubs.map((club: any) => club.name).join(', ')}
                 </ListGroup.Item>
               </ListGroup>
               <p className="mt-3">{profile?.bio}</p>
@@ -143,7 +114,7 @@ const Profile = () => {
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="schools">
               <Form.Label>Schools:</Form.Label>
-              <Form.Control as="select" multiple name="schools" defaultValue={profile?.schools.map(school => school.id)}>
+              <Form.Control as="select" multiple name="schools" defaultValue={profile?.schools.map((school: any) => school.id)}>
                 <option value={1}>New Jersey Institute of Technology</option>
                 <option value={2}>Rutgers University</option>
                 <option value={3}>Stevens Institute of Technology</option>
@@ -151,7 +122,7 @@ const Profile = () => {
             </Form.Group>
             <Form.Group className="mb-3" controlId="degrees">
               <Form.Label>Degree:</Form.Label>
-              <Form.Control as="select" multiple name="degrees" defaultValue={profile?.degrees.map(degree => degree.id)}>
+              <Form.Control as="select" multiple name="degrees" defaultValue={profile?.degrees.map((degree: any) => degree.id)}>
                 <option value={1}>Computer Science</option>
                 <option value={2}>Information Technology</option>
                 <option value={3}>Cybersecurity</option>
@@ -159,7 +130,7 @@ const Profile = () => {
             </Form.Group>
             <Form.Group className="mb-3" controlId="classes">
               <Form.Label>Classes:</Form.Label>
-              <Form.Control as="select" multiple name="classes" defaultValue={profile?.classes.map(clas => clas.id)}>
+              <Form.Control as="select" multiple name="classes" defaultValue={profile?.classes.map((clas: any) => clas.id)}>
                 <option value={1}>Data Structures</option>
                 <option value={2}>Algorithms</option>
                 <option value={3}>Operating Systems</option>
@@ -167,7 +138,7 @@ const Profile = () => {
             </Form.Group>
             <Form.Group className="mb-3" controlId="clubs">
               <Form.Label>Clubs:</Form.Label>
-              <Form.Control as="select" multiple name="clubs" defaultValue={profile?.clubs.map(club => club.id)}>
+              <Form.Control as="select" multiple name="clubs" defaultValue={profile?.clubs.map((club: any) => club.id)}>
                 <option value={1}>ACM</option>
                 <option value={2}>IEEE</option>
                 <option value={3}>Cybersecurity Club</option>

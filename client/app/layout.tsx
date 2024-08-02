@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
+import { ProfileProvider } from '@/context/ProfileProvider';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 export const metadata: Metadata = {
@@ -10,7 +11,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: ReactNode; }>) {
   return (
     <html lang="en" className="h-100">
+      <ProfileProvider>
       {children}
+      </ProfileProvider>
     </html>
   );
 };

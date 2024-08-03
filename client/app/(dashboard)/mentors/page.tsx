@@ -7,7 +7,7 @@ import { getUsers } from '@/services/users';
 
 const Mentors = () => {
   const [mentors, setMentors] = useState([]);
-
+  // Fetch mentors on component mount
   useEffect(() => {
     getUsers().then((response) => {
       if (response.ok) {

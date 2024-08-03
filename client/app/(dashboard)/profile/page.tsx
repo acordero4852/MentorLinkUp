@@ -13,15 +13,18 @@ import { ProfileContext } from '@/context/ProfileProvider';
 import { updateUserProfile } from '@/services/auth';
 
 const Profile = () => {
+  // Get the user profile from the context
   const { profile } = useContext(ProfileContext);
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
 
+  // Function to handle the modal close event
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const token = localStorage.getItem('token');
 
+  // Function to format the date
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const options: Intl.DateTimeFormatOptions = {
@@ -32,6 +35,7 @@ const Profile = () => {
     return date.toLocaleDateString('en-US', options);
   };
 
+  // Function to handle the form submit event
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 

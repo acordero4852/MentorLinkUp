@@ -7,7 +7,7 @@ import { getUsers } from '@/services/users';
 
 const Mentees = () => {
   const [mentees, setMentees] = useState([]);
-
+  // Fetch mentees on component mount
   useEffect(() => {
     getUsers().then((response) => {
       if (response.ok) {

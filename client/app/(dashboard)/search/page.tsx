@@ -13,11 +13,12 @@ const Search = () => {
 
   const [users, setUsers] = useState([]);
 
+  // Get the search parameters from the URL
   const searchParams = useSearchParams();
   const name = searchParams.get('name') as string;
   const role = searchParams.get('role') as string;
 
-
+  // Function to handle the change event of the select element
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     if (value === 'all') {
@@ -27,6 +28,7 @@ const Search = () => {
     }
   }
 
+  // Fetch users on component mount
   useEffect(() => {
     getUsers().then((response) => {
       if (response.ok) {

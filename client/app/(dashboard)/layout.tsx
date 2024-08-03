@@ -10,6 +10,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const { setProfile } = useContext(ProfileContext);
 
+  // Function to fetch the user profile
   const fetchProfile = useCallback(async () => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -30,6 +31,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     }
   }, [router, setProfile]);
 
+  // Fetch the user profile on component mount
   useEffect(() => {
     fetchProfile();
   }, [fetchProfile]);

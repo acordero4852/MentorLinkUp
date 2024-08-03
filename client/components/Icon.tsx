@@ -1,3 +1,4 @@
+// This component represents a bell icon
 export const Bell = ({ props }: { props?: any }) => {
   return (
     <svg
@@ -13,6 +14,7 @@ export const Bell = ({ props }: { props?: any }) => {
   );
 };
 
+// This component represents a chat circle icon
 export const ChatCircle = ({ props }: { props?: any }) => {
   return (
     <svg
@@ -28,6 +30,7 @@ export const ChatCircle = ({ props }: { props?: any }) => {
   );
 };
 
+// This component represents a magnifying glass icon
 export const MagnifyingGlass = ({ props }: { props?: any }) => {
   return (
     <svg

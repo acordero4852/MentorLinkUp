@@ -15,6 +15,7 @@ export default function Dasboard() {
 
   const { profile } = useContext(ProfileContext);
 
+  // Fetch users on component mount
   useEffect(() => {
     getUsers().then((response) => {
       if (response.ok) {

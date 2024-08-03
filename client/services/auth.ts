@@ -1,10 +1,12 @@
 const API_URL = 'http://localhost:8000/api';
 
+// Interface for login data
 interface ILogin {
   email?: string;
   password?: string;
 }
 
+// Interface for registration data
 interface IRegister {
   first_name?: string;
   last_name?: string;
@@ -13,6 +15,7 @@ interface IRegister {
   is_mentor?: boolean | null;
 }
 
+// Interface for profile update data
 interface IUpdate {
   schools?: number[];
   degrees?: number[];
@@ -21,6 +24,7 @@ interface IUpdate {
   bio?: string;
 }
 
+// Function to login a user
 export const loginUser = async (data: ILogin) => {
   const { email, password } = data;
   return await fetch(`${API_URL}/users/login/`, {
@@ -32,6 +36,7 @@ export const loginUser = async (data: ILogin) => {
   });
 }
 
+// Function to register a user
 export const registerUser = async (data: IRegister) => {
   const { first_name, last_name, email, password, is_mentor } = data;
   return await fetch(`${API_URL}/users/register/`, {
@@ -43,6 +48,7 @@ export const registerUser = async (data: IRegister) => {
   });
 }
 
+// Function to get user profile
 export const getUserProfile = async (token: string) => {
   return await fetch(`${API_URL}/users/self/`, {
     method: 'GET',
@@ -53,6 +59,7 @@ export const getUserProfile = async (token: string) => {
   });
 }
 
+// Function to update user profile
 export const updateUserProfile = async (token: string, data: IUpdate) => {
   const { schools, degrees, classes, clubs, bio } = data;
   return await fetch(`${API_URL}/users/self/update/`, {

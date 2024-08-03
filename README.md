@@ -26,3 +26,17 @@ MentorLinkUp is a platform connecting students with mentors to facilitate career
 - **Frontend:** Next.js and Bootstrap
 - **Backend:** Django
 - **Database:** PostgreSQL
+
+## How to Run the App
+
+1. Make sure you have Docker installed on your computer and also the docker compose plugin, plus Node and Python.
+
+2. Clone this repo to the directory of your choice.
+
+3. Use either your code editor build-in terminal or regular terminal to open the repo (highly recommend Linux terimal).
+
+4. On the client directory, install the node modules `npm install`.
+
+5. On the root of the repo, run the docker compose `docker-compose up`.
+
+6. Wait until `localhost:3000` is ready to use to view the web app.

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 export default function Layout ({children}: {children: ReactNode}) {
 
   const router = useRouter();
-
+  // Check if the user is already logged in
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {

@@ -8,6 +8,7 @@ import InputGroup from 'react-bootstrap/InputGroup'
 import Button from 'react-bootstrap/Button'
 
 const Message = () => {
+  // Mock messages data
   const messages = [
     { name: "Sarah Lee", expertise: "Expert in Data Science" },
     { name: "John Doe", expertise: "Expert in Web Development" },
@@ -19,9 +20,8 @@ const Message = () => {
     { name: "James Moore", expertise: "Expert in Machine Learning" },
     { name: "Emily Taylor", expertise: "Expert in Artificial Intelligence" },
     { name: "Daniel Anderson", expertise: "Expert in Blockchain" },
-
   ];
-
+  
   return (
     <main className='h-100'>
       <Container className="h-100">

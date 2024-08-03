@@ -14,6 +14,7 @@ export default function Register() {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
+  // Function to handle the form submit event
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 

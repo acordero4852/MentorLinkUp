@@ -1,11 +1,11 @@
 @url = http://localhost:8000/api
 
-### Get all users
-GET {{url}}/users/
+### Get all users. Or search and filter users
+GET {{url}}/users/?search=john&is_mentor=true
 Content-Type: application/json
 
 ### Get a user
-GET {{url}}/users/106/
+GET {{url}}/users/10/
 Content-Type: application/json
 
 
@@ -14,10 +14,10 @@ POST {{url}}/users/register/
 Content-Type: application/json
 
 {
-    "email": "tata@ta.com",
+    "first_name": "Michael",
+    "last_name": "Sanchez",
+    "email": "mikesanz123@google.com",
     "password": "password",
-    "first_name": "test",
-    "last_name": "test",
     "is_mentor": false
 }
 
@@ -26,28 +26,64 @@ POST {{url}}/users/login/
 Content-Type: application/json
 
 {
-    "email": "tata@ta.com",
+    "email": "mikesanz123@google.com",
     "password": "password"
 }
+###
+@token1 = f1d964c36f5f708aa9e2e3c07fce5bb85a79ed0f
 
-### Get user profile with token in header
+@token2 = 6f5e28d488abb9738a046996696c2d0c0b60903f
+
+@token3 = aed806ba48541edfe5c559bf7df0becd81564997
+
+### Get self user
 GET {{url}}/users/self/
 Content-Type: application/json
-Authorization : Token fe1703ce80c85ec27a1e257df85a080c357af82c
+Authorization : Token 6f5e28d488abb9738a046996696c2d0c0b60903f
 
 ### update a user with token in header
 PUT  {{url}}/users/self/update/
 Content-Type: application/json
-Authorization: Token fe1703ce80c85ec27a1e257df85a080c357af82c
+Authorization: Token 6f5e28d488abb9738a046996696c2d0c0b60903f
 
 {
-    "bio": "I am a test user 3"
+    "schools": [1],
+    "degrees": [1],
+    "classes": [1],
+    "clubs": [1, 3],
+    "bio": "I'm Mike and I like to become a Software Engineer after college"
 }
 
-### Get mentors
-GET {{url}}/mentors/
+### Get mentor matches ranked
+GET {{url}}/users/mentor_match/
 Content-Type: application/json
+Authorization: Token 6f5e28d488abb9738a046996696c2d0c0b60903f
 
-### Search mentors
-GET {{url}}/mentors/?school=new
+### send a message to a user
+POST {{url}}/users/messages/
 Content-Type: application/json
+Authorization: Token 6ce16e1f57dcab1bd64d9f9a2bf1adff9d1c8528
+
+{
+    "receiver_id": 53,
+    "content": "Hello, I am interested in your profile"
+}
+### send a message to a current chat
+POST {{url}}/users/messages/
+Content-Type: application/json
+Authorization: Token aed806ba48541edfe5c559bf7df0becd81564997
+
+{
+    "chat_id": 1,
+    "content": "Hello, I am interested in your profile"
+}
+
+### Get all chats
+GET {{url}}/users/chats/
+Content-Type: application/json
+Authorization: Token 6ce16e1f57dcab1bd64d9f9a2bf1adff9d1c8528
+
+### Get messages from a chat
+GET {{url}}/users/chats/1/
+Content-Type: application/json
+Authorization: Token 6ce16e1f57dcab1bd64d9f9a2bf1adff9d1c8528

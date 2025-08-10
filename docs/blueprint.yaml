@@ -1,0 +1,12 @@
+version: "0.2"
+project:
+  name: Untitled App
+  mission: Draft mission (edit in Overview).
+  audience: Who is this for?
+user_stories: []
+architecture:
+  components: []
+stages: []
+prompt_style:
+  tone: kid-friendly
+  detail_level: step-by-step
